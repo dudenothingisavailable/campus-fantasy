@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fantasy College Sports</title>
+  <title>Campus Fantasy</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Bangers&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
@@ -11,25 +11,20 @@
     :root{--bg:#0f172a;--card:#1e293b;--border:#334155;--gold:#f59e0b;--green:#10b981;--red:#ef4444;--blue:#3b82f6;--text:#f1f5f9;--muted:#94a3b8}
     body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
     .app{max-width:960px;margin:0 auto;padding:16px}
-    /* Header */
     .header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:linear-gradient(135deg,#1e3a5f,#0f172a);border:1px solid var(--border);border-radius:16px;margin-bottom:16px}
     .logo{font-family:'Bangers',cursive;font-size:26px;letter-spacing:2px;color:var(--gold)}
     .logo span{color:#60a5fa}
     .user-pill{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.05);border:1px solid var(--border);padding:7px 14px;border-radius:50px;font-size:13px;font-weight:600;cursor:pointer}
     .user-pill:hover{background:rgba(255,255,255,0.1)}
-    /* Nav */
     .nav{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
     .nav-btn{padding:8px 16px;border-radius:50px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;font-size:13px;transition:all .2s}
     .nav-btn:hover{border-color:var(--gold);color:var(--gold)}
     .nav-btn.active{background:var(--gold);color:#000;border-color:var(--gold)}
-    /* Pages */
     .page{display:none}.page.active{display:block}
-    /* Cards */
     .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px}
     .card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
     h2{font-family:'Bangers',cursive;font-size:22px;color:var(--gold);letter-spacing:1px}
     h3{font-size:15px;font-weight:700;margin-bottom:10px}
-    /* League cards */
     .league-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all .2s}
     .league-card:hover{border-color:var(--gold);transform:translateY(-1px)}
     .league-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
@@ -38,39 +33,40 @@
     .sport-cfb{background:rgba(239,68,68,0.2);color:#fca5a5;border:1px solid rgba(239,68,68,0.3)}
     .sport-cbb{background:rgba(59,130,246,0.2);color:#93c5fd;border:1px solid rgba(59,130,246,0.3)}
     .league-meta{font-size:12px;color:var(--muted)}
-    /* Draft room */
-    .draft-board{display:grid;gap:10px}
+    .draft-board{display:grid;gap:8px}
     .pick-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:12px;display:flex;align-items:center;gap:12px}
     .pick-num{font-family:'Bangers',cursive;font-size:22px;color:var(--gold);width:36px;text-align:center}
     .pick-info{flex:1}
     .pick-owner{font-size:12px;color:var(--muted)}
     .pick-team{font-weight:700;font-size:15px}
     .your-pick{border-color:var(--gold);background:rgba(245,158,11,0.05)}
-    .pick-btn{background:var(--gold);color:#000;border:none;padding:8px 16px;border-radius:8px;font-weight:700;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif}
-    .pick-btn:hover{opacity:0.9}
-    /* Team search */
     .search-box{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text);padding:10px 14px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;margin-bottom:10px}
     .search-box:focus{outline:none;border-color:var(--gold)}
     .team-list{max-height:300px;overflow-y:auto}
     .team-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:10px;cursor:pointer;transition:background .15s}
     .team-item:hover{background:rgba(255,255,255,0.05)}
-    .team-item.drafted{opacity:0.35;cursor:not-allowed}
+    .team-item.drafted{opacity:0.35;cursor:not-allowed;pointer-events:none}
     .team-name-display{font-weight:600;font-size:14px}
     .team-conf{font-size:11px;color:var(--muted)}
     .draft-btn{background:var(--green);color:#fff;border:none;padding:5px 12px;border-radius:7px;font-weight:700;cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif}
-    /* Roster */
-    .roster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+    .roster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
     .roster-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center}
-    .roster-school{font-weight:700;font-size:14px;margin-bottom:4px}
-    .roster-pts{font-family:'Bangers',cursive;font-size:28px;color:var(--gold)}
+    .roster-school{font-weight:700;font-size:13px;margin-bottom:4px}
+    .roster-pts{font-family:'Bangers',cursive;font-size:26px;color:var(--gold)}
     .roster-pts-lbl{font-size:11px;color:var(--muted)}
-    /* Leaderboard */
     .lb-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
     .lb-row:last-child{border-bottom:none}
     .lb-rank{font-family:'Bangers',cursive;font-size:20px;color:var(--gold);width:32px}
     .lb-name{flex:1;font-size:14px;font-weight:600}
+    .lb-record{font-size:12px;color:var(--muted);margin-right:12px}
     .lb-pts{font-family:'Bangers',cursive;font-size:18px;color:var(--gold)}
-    /* Forms */
+    .matchup-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px}
+    .matchup-teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px}
+    .matchup-team{text-align:center}
+    .matchup-name{font-weight:700;font-size:14px;margin-bottom:4px}
+    .matchup-score{font-family:'Bangers',cursive;font-size:28px;color:var(--gold)}
+    .matchup-vs{font-family:'Bangers',cursive;font-size:16px;color:var(--muted)}
+    .matchup-winner{border-color:var(--gold)}
     .input-group{margin-bottom:12px}
     .input-group label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
     .input-group input,.input-group select{width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text);padding:10px 12px;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px}
@@ -81,9 +77,9 @@
     .btn:hover{opacity:0.9}
     .btn-gold{background:var(--gold);color:#000}
     .btn-blue{background:var(--blue);color:#fff}
+    .btn-green{background:var(--green);color:#fff}
     .btn-red{background:var(--red);color:#fff}
     .btn-block{width:100%;margin-top:8px}
-    /* Auth */
     .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:100}
     .auth-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;width:340px;max-width:95vw}
     .auth-logo{font-family:'Bangers',cursive;font-size:32px;color:var(--gold);text-align:center;letter-spacing:3px;margin-bottom:4px}
@@ -94,14 +90,12 @@
     .auth-switch{text-align:center;font-size:13px;color:var(--muted)}
     .auth-switch a{color:var(--gold);cursor:pointer;text-decoration:underline}
     .auth-error{color:var(--red);font-size:13px;text-align:center;margin-bottom:8px;min-height:18px}
-    /* Modals */
     .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);display:flex;align-items:center;justify-content:center;z-index:200}
-    .modal-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;width:400px;max-width:95vw;max-height:85vh;overflow-y:auto}
+    .modal-box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;width:420px;max-width:95vw;max-height:90vh;overflow-y:auto}
     .modal-box h3{color:var(--gold);margin-bottom:14px;font-family:'Bangers',cursive;font-size:22px;letter-spacing:1px}
     .modal-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
     .modal-confirm{background:var(--gold);color:#000;border:none;padding:9px;border-radius:10px;font-weight:700;cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif}
     .modal-cancel{background:transparent;color:var(--muted);border:1px solid var(--border);padding:9px;border-radius:10px;cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif}
-    /* Misc */
     .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--gold);color:#000;padding:10px 22px;border-radius:50px;font-weight:700;font-size:14px;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
     .toast.show{opacity:1}
     .no-data{text-align:center;padding:32px;color:var(--muted);font-size:14px}
@@ -113,22 +107,24 @@
     .badge-yellow{background:rgba(245,158,11,0.2);color:#fcd34d;border:1px solid rgba(245,158,11,0.3)}
     .badge-red{background:rgba(239,68,68,0.2);color:#fca5a5;border:1px solid rgba(239,68,68,0.3)}
     .badge-blue{background:rgba(59,130,246,0.2);color:#93c5fd;border:1px solid rgba(59,130,246,0.3)}
+    .badge-purple{background:rgba(139,92,246,0.2);color:#c4b5fd;border:1px solid rgba(139,92,246,0.3)}
     .divider{border:none;border-top:1px solid var(--border);margin:14px 0}
     .your-turn-banner{background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(245,158,11,0.05));border:1px solid rgba(245,158,11,0.4);border-radius:12px;padding:14px;margin-bottom:14px;text-align:center}
     .your-turn-banner h3{color:var(--gold);font-size:16px;margin-bottom:4px}
-    .join-code{font-family:'Bangers',cursive;font-size:36px;letter-spacing:8px;color:var(--gold);text-align:center;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:12px;padding:16px;margin:12px 0}
+    .join-code-display{font-family:'Bangers',cursive;font-size:20px;letter-spacing:4px;color:var(--gold);background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:6px 14px}
     .stat-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:13px}
     .stat-row:last-child{border-bottom:none}
     .stat-label{color:var(--muted)}
     .stat-val{font-weight:600;color:var(--gold)}
     .admin-section{background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.2);border-radius:12px;padding:14px;margin-top:12px}
-    .admin-section h3{color:#fca5a5}
-    .sync-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px}
-    .sync-row:last-child{border-bottom:none}
-    /* Tab pills inside a section */
-    .tab-row{display:flex;gap:6px;margin-bottom:14px}
+    .admin-section h3{color:#fca5a5;margin-bottom:10px}
+    .tab-row{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
     .tab-pill{padding:6px 14px;border-radius:50px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
     .tab-pill.active{background:var(--gold);color:#000;border-color:var(--gold)}
+    .week-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .week-label{font-family:'Bangers',cursive;font-size:18px;color:var(--gold);letter-spacing:1px}
+    .playoff-banner{background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(245,158,11,0.1));border:1px solid rgba(139,92,246,0.4);border-radius:12px;padding:12px;text-align:center;margin-bottom:12px}
+    .playoff-banner h3{color:#c4b5fd;margin-bottom:2px}
   </style>
 </head>
 <body>
@@ -140,21 +136,17 @@
       <span style="color:var(--muted);font-size:11px">▼</span>
     </div>
   </div>
-
   <div class="nav">
     <button class="nav-btn active" id="nav-home" onclick="showPage('home',this)">🏠 Home</button>
     <button class="nav-btn" id="nav-leagues" onclick="showPage('leagues',this)">🏆 My Leagues</button>
     <button class="nav-btn" id="nav-league" onclick="showPage('league',this)" style="display:none">📋 League</button>
   </div>
 
-  <!-- HOME PAGE -->
   <div id="page-home" class="page active">
     <div class="card">
-      <div class="card-header">
-        <h2>Welcome to Campus Fantasy</h2>
-      </div>
-      <p style="color:var(--muted);font-size:14px;margin-bottom:16px">Draft college teams, earn points based on real game stats, and compete with friends across CFB and CBB seasons.</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="card-header"><h2>Campus Fantasy</h2></div>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:16px">Draft college teams, earn points from real game stats, and compete head-to-head each week.</p>
+      <div class="grid2">
         <button class="btn btn-gold btn-block" onclick="showCreateLeague()">+ Create League</button>
         <button class="btn btn-blue btn-block" onclick="showJoinLeague()">🔑 Join League</button>
       </div>
@@ -162,41 +154,32 @@
     <div class="card">
       <h3>How Scoring Works</h3>
       <div class="tab-row">
-        <button class="tab-pill active" onclick="showScoringTab('cbb',this)">🏀 Basketball</button>
-        <button class="tab-pill" onclick="showScoringTab('cfb',this)">🏈 Football</button>
+        <button class="tab-pill active" id="score-tab-cbb" onclick="showScoringTab('cbb',this)">🏀 Basketball</button>
+        <button class="tab-pill" id="score-tab-cfb" onclick="showScoringTab('cfb',this)">🏈 Football</button>
       </div>
       <div id="scoring-cbb">
-        <div class="stat-row"><span class="stat-label">Being Ranked</span><span class="stat-val">(26 - rank) / 5 pts</span></div>
-        <div class="stat-row"><span class="stat-label">Beat Ranked Team</span><span class="stat-val">(26 - opp rank) / 5 pts</span></div>
-        <div class="stat-row"><span class="stat-label">Point Differential</span><span class="stat-val">diff / 2 pts</span></div>
-        <div class="stat-row"><span class="stat-label">3-Pointer Made</span><span class="stat-val">+0.5 pts each</span></div>
-        <div class="stat-row"><span class="stat-label">Field Goal Attempt</span><span class="stat-val">-0.25 pts each</span></div>
-        <div class="stat-row"><span class="stat-label">Field Goal Made</span><span class="stat-val">+0.5 pts each</span></div>
-        <div class="stat-row"><span class="stat-label">Free Throw Attempt</span><span class="stat-val">-0.25 pts each</span></div>
-        <div class="stat-row"><span class="stat-label">Free Throw Made</span><span class="stat-val">+0.5 pts each</span></div>
-        <div class="stat-row"><span class="stat-label">Offensive Rebound</span><span class="stat-val">+0.5 pts each</span></div>
-        <div class="stat-row"><span class="stat-label">Defensive Rebound</span><span class="stat-val">+0.25 pts each</span></div>
-        <div class="stat-row"><span class="stat-label">Assist</span><span class="stat-val">+0.375 pts each</span></div>
-        <div class="stat-row"><span class="stat-label">Steal</span><span class="stat-val">+0.75 pts each</span></div>
-        <div class="stat-row"><span class="stat-label">Block</span><span class="stat-val">+0.75 pts each</span></div>
-        <div class="stat-row"><span class="stat-label">Turnover</span><span class="stat-val">-1 pt each</span></div>
+        <div class="stat-row"><span class="stat-label">Being Ranked</span><span class="stat-val">(26−rank)÷5</span></div>
+        <div class="stat-row"><span class="stat-label">Beat Ranked Opponent</span><span class="stat-val">(26−opp rank)÷5</span></div>
+        <div class="stat-row"><span class="stat-label">Point Differential</span><span class="stat-val">diff÷2</span></div>
+        <div class="stat-row"><span class="stat-label">3-Pointer Made</span><span class="stat-val">+0.5 each</span></div>
+        <div class="stat-row"><span class="stat-label">FG Attempt / FG Made</span><span class="stat-val">−0.25 / +0.5</span></div>
+        <div class="stat-row"><span class="stat-label">FT Attempt / FT Made</span><span class="stat-val">−0.25 / +0.5</span></div>
+        <div class="stat-row"><span class="stat-label">Off Reb / Def Reb</span><span class="stat-val">+0.5 / +0.25</span></div>
+        <div class="stat-row"><span class="stat-label">Assist / Steal / Block</span><span class="stat-val">+0.375 / +0.75 / +0.75</span></div>
+        <div class="stat-row"><span class="stat-label">Turnover</span><span class="stat-val">−1.0</span></div>
       </div>
       <div id="scoring-cfb" style="display:none">
-        <div class="stat-row"><span class="stat-label">Win</span><span class="stat-val">+3 pts</span></div>
-        <div class="stat-row"><span class="stat-label">Being Ranked</span><span class="stat-val">(26 - rank) / 5 pts</span></div>
-        <div class="stat-row"><span class="stat-label">Beat Ranked Team</span><span class="stat-val">(26 - opp rank) / 5 pts</span></div>
-        <div class="stat-row"><span class="stat-label">Point Differential</span><span class="stat-val">diff / 4 pts</span></div>
-        <div class="stat-row"><span class="stat-label">Passing TD</span><span class="stat-val">+0.5 pts each</span></div>
-        <div class="stat-row"><span class="stat-label">Rushing TD</span><span class="stat-val">+0.25 pts each</span></div>
-        <div class="stat-row"><span class="stat-label">Pass Completion</span><span class="stat-val">+0.1 pts each</span></div>
-        <div class="stat-row"><span class="stat-label">Pass Attempt</span><span class="stat-val">-0.05 pts each</span></div>
-        <div class="stat-row"><span class="stat-label">Interception Thrown</span><span class="stat-val">-0.5 pts each</span></div>
-        <div class="stat-row"><span class="stat-label">Fumble Lost</span><span class="stat-val">-0.5 pts each</span></div>
+        <div class="stat-row"><span class="stat-label">Win</span><span class="stat-val">+3.0</span></div>
+        <div class="stat-row"><span class="stat-label">Being Ranked</span><span class="stat-val">(26−rank)÷5</span></div>
+        <div class="stat-row"><span class="stat-label">Beat Ranked Opponent</span><span class="stat-val">(26−opp rank)÷5</span></div>
+        <div class="stat-row"><span class="stat-label">Point Differential</span><span class="stat-val">diff÷4</span></div>
+        <div class="stat-row"><span class="stat-label">Pass TD / Rush TD</span><span class="stat-val">+0.5 / +0.25</span></div>
+        <div class="stat-row"><span class="stat-label">Completion / Pass Att</span><span class="stat-val">+0.1 / −0.05</span></div>
+        <div class="stat-row"><span class="stat-label">Interception / Fumble Lost</span><span class="stat-val">−0.5 / −0.5</span></div>
       </div>
     </div>
   </div>
 
-  <!-- MY LEAGUES PAGE -->
   <div id="page-leagues" class="page">
     <div class="card-header">
       <h2>My Leagues</h2>
@@ -208,20 +191,17 @@
     <div id="leagues-list"><div class="loading"><span class="spinner"></span>Loading...</div></div>
   </div>
 
-  <!-- LEAGUE DETAIL PAGE -->
   <div id="page-league" class="page">
     <div id="league-content"></div>
   </div>
 </div>
 
-<!-- Auth overlay -->
+<!-- Auth -->
 <div class="overlay" id="auth-overlay">
   <div class="auth-box">
     <div class="auth-logo">🏈 CAMPUS</div>
     <div class="auth-sub" id="auth-sub">Sign in to play</div>
-    <div id="auth-signup-fields" style="display:none">
-      <input class="auth-input" id="auth-username" placeholder="Username"/>
-    </div>
+    <div id="auth-signup-fields" style="display:none"><input class="auth-input" id="auth-username" placeholder="Username"/></div>
     <input class="auth-input" id="auth-email" placeholder="Email"/>
     <input class="auth-input" id="auth-password" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')authSubmit()"/>
     <div class="auth-error" id="auth-error"></div>
@@ -242,27 +222,22 @@
   </div>
 </div>
 
-<!-- Create league modal -->
+<!-- Create league -->
 <div class="modal-overlay" id="create-league-modal" style="display:none">
   <div class="modal-box">
     <h3>🏆 Create League</h3>
     <div class="input-group"><label>League Name</label><input id="cl-name" placeholder="My Fantasy League"/></div>
     <div class="input-group"><label>Sport</label>
-      <select id="cl-sport">
+      <select id="cl-sport" onchange="updateDraftTypeVisibility()">
+        <option value="cfb">🏈 College Football (CFB) — Weekly H2H</option>
         <option value="cbb">🏀 College Basketball (CBB)</option>
-        <option value="cfb">🏈 College Football (CFB)</option>
       </select>
     </div>
     <div class="grid2">
       <div class="input-group"><label>Teams Per Roster</label><input id="cl-roster" type="number" min="2" max="20" value="6"/></div>
-      <div class="input-group"><label>Draft Type</label>
-        <select id="cl-draft">
-          <option value="slow">Slow Draft</option>
-        </select>
-      </div>
+      <div class="input-group"><label>Season Year</label><input id="cl-year" type="number" value="2026" min="2020" max="2030"/></div>
     </div>
-    <div class="input-group"><label>Pick Time Limit (hours)</label><input id="cl-hours" type="number" min="1" max="72" value="24" placeholder="24"/></div>
-    <div class="input-group"><label>Season Year</label><input id="cl-year" type="number" value="2026" min="2020" max="2030"/></div>
+    <div class="input-group"><label>Pick Time Limit (hours)</label><input id="cl-hours" type="number" min="1" max="72" value="24"/></div>
     <div class="auth-error" id="cl-error"></div>
     <div class="modal-btns">
       <button class="modal-cancel" onclick="closeModal('create-league-modal')">Cancel</button>
@@ -271,7 +246,7 @@
   </div>
 </div>
 
-<!-- Join league modal -->
+<!-- Join league -->
 <div class="modal-overlay" id="join-league-modal" style="display:none">
   <div class="modal-box">
     <h3>🔑 Join League</h3>
@@ -289,7 +264,6 @@
 <div class="modal-overlay" id="pick-modal" style="display:none">
   <div class="modal-box">
     <h3>🎯 Make Your Pick</h3>
-    <p style="color:var(--muted);font-size:13px;margin-bottom:12px">Search and select a team for your roster.</p>
     <input class="search-box" id="team-search" placeholder="Search teams..." oninput="filterTeams()"/>
     <div class="team-list" id="team-list"></div>
     <div class="modal-btns" style="margin-top:12px">
@@ -298,51 +272,51 @@
   </div>
 </div>
 
-<!-- Sync game modal (admin) -->
+<!-- Sync game stats modal -->
 <div class="modal-overlay" id="sync-modal" style="display:none">
   <div class="modal-box">
-    <h3>📊 Sync Game Stats</h3>
-    <p style="color:var(--muted);font-size:13px;margin-bottom:14px">Enter the game details and stats manually. Points will be calculated and added to rosters automatically.</p>
+    <h3>📊 Enter Game Stats</h3>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:14px">Points calculate automatically and update all rosters.</p>
     <div class="grid2">
-      <div class="input-group"><label>Team</label><input id="sync-team" placeholder="e.g. Alabama"/></div>
+      <div class="input-group"><label>Team Name</label><input id="sync-team" placeholder="e.g. Alabama"/></div>
       <div class="input-group"><label>Opponent</label><input id="sync-opp" placeholder="e.g. Auburn"/></div>
     </div>
     <div class="grid2">
-      <div class="input-group"><label>Team Score</label><input id="sync-score1" type="number" placeholder="75"/></div>
-      <div class="input-group"><label>Opp Score</label><input id="sync-score2" type="number" placeholder="68"/></div>
+      <div class="input-group"><label>Team Score</label><input id="sync-score1" type="number" placeholder="28"/></div>
+      <div class="input-group"><label>Opp Score</label><input id="sync-score2" type="number" placeholder="21"/></div>
     </div>
     <div class="grid2">
-      <div class="input-group"><label>Team Rank (0=unranked)</label><input id="sync-rank1" type="number" placeholder="0" value="0"/></div>
-      <div class="input-group"><label>Opp Rank (0=unranked)</label><input id="sync-rank2" type="number" placeholder="0" value="0"/></div>
+      <div class="input-group"><label>Team Rank (0=unranked)</label><input id="sync-rank1" type="number" value="0"/></div>
+      <div class="input-group"><label>Opp Rank (0=unranked)</label><input id="sync-rank2" type="number" value="0"/></div>
     </div>
     <div id="sync-cbb-fields">
       <hr class="divider"/>
-      <p style="font-size:12px;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">Basketball Stats (Team)</p>
+      <p style="font-size:11px;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">Basketball Stats</p>
       <div class="grid2">
-        <div class="input-group"><label>3-Pointers Made</label><input id="sync-3pm" type="number" value="0"/></div>
-        <div class="input-group"><label>FG Attempts</label><input id="sync-fga" type="number" value="0"/></div>
+        <div class="input-group"><label>3PM</label><input id="sync-3pm" type="number" value="0"/></div>
+        <div class="input-group"><label>FGA</label><input id="sync-fga" type="number" value="0"/></div>
       </div>
       <div class="grid2">
-        <div class="input-group"><label>FG Made</label><input id="sync-fgm" type="number" value="0"/></div>
-        <div class="input-group"><label>FT Attempts</label><input id="sync-fta" type="number" value="0"/></div>
+        <div class="input-group"><label>FGM</label><input id="sync-fgm" type="number" value="0"/></div>
+        <div class="input-group"><label>FTA</label><input id="sync-fta" type="number" value="0"/></div>
       </div>
       <div class="grid2">
-        <div class="input-group"><label>FT Made</label><input id="sync-ftm" type="number" value="0"/></div>
-        <div class="input-group"><label>Off Rebounds</label><input id="sync-orb" type="number" value="0"/></div>
+        <div class="input-group"><label>FTM</label><input id="sync-ftm" type="number" value="0"/></div>
+        <div class="input-group"><label>OREB</label><input id="sync-orb" type="number" value="0"/></div>
       </div>
       <div class="grid2">
-        <div class="input-group"><label>Def Rebounds</label><input id="sync-drb" type="number" value="0"/></div>
-        <div class="input-group"><label>Assists</label><input id="sync-ast" type="number" value="0"/></div>
+        <div class="input-group"><label>DREB</label><input id="sync-drb" type="number" value="0"/></div>
+        <div class="input-group"><label>AST</label><input id="sync-ast" type="number" value="0"/></div>
       </div>
       <div class="grid2">
-        <div class="input-group"><label>Steals</label><input id="sync-stl" type="number" value="0"/></div>
-        <div class="input-group"><label>Blocks</label><input id="sync-blk" type="number" value="0"/></div>
+        <div class="input-group"><label>STL</label><input id="sync-stl" type="number" value="0"/></div>
+        <div class="input-group"><label>BLK</label><input id="sync-blk" type="number" value="0"/></div>
       </div>
-      <div class="input-group"><label>Turnovers</label><input id="sync-tov" type="number" value="0"/></div>
+      <div class="input-group"><label>TOV</label><input id="sync-tov" type="number" value="0"/></div>
     </div>
     <div id="sync-cfb-fields" style="display:none">
       <hr class="divider"/>
-      <p style="font-size:12px;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">Football Stats (Team)</p>
+      <p style="font-size:11px;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px">Football Stats</p>
       <div class="grid2">
         <div class="input-group"><label>Pass TDs</label><input id="sync-ptd" type="number" value="0"/></div>
         <div class="input-group"><label>Rush TDs</label><input id="sync-rtd" type="number" value="0"/></div>
@@ -359,7 +333,7 @@
     <div class="auth-error" id="sync-error"></div>
     <div class="modal-btns">
       <button class="modal-cancel" onclick="closeModal('sync-modal')">Cancel</button>
-      <button class="modal-confirm" onclick="submitSync()">Calculate & Save</button>
+      <button class="modal-confirm" onclick="submitSync()">Save & Calculate</button>
     </div>
   </div>
 </div>
@@ -368,540 +342,675 @@
 
 <script>
 // ============================================================
-// 🏈 PASTE YOUR SUPABASE CREDENTIALS HERE
+// PASTE YOUR SUPABASE CREDENTIALS HERE
 // ============================================================
-const SUPABASE_URL = 'https://ciujehzdsonmgvhsplcf.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpdWplaHpkc29ubWd2aHNwbGNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4MTkxMjksImV4cCI6MjA5NTM5NTEyOX0.3K5PPsDeGWgxoIqOVSGyG7OinJvlLpq9ni-M-JQRUtw';
+const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 // ============================================================
-
-const CFBD_API_KEY = ''; // from collegefootballdata.com
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-let currentUser = null, currentProfile = null;
-let currentLeague = null, currentMember = null;
-let allTeams = [], draftedTeams = [], activeSport = 'cbb';
+let currentUser = null, currentProfile = null, currentLeague = null;
+let allTeams = [], draftedTeams = [], isSignup = false;
 
 // ── Scoring ──────────────────────────────────────────────────
 function calcCBBPoints(s) {
-  let pts = 0;
-  const diff = s.score1 - s.score2;
-  if (s.rank1 > 0) pts += (26 - s.rank1) / 5;
-  if (s.rank2 > 0 && diff > 0) pts += (26 - s.rank2) / 5;
-  pts += diff / 2;
-  pts += s.three_pm * 0.5;
-  pts += s.fga * -0.25;
-  pts += s.fgm * 0.5;
-  pts += s.fta * -0.25;
-  pts += s.ftm * 0.5;
-  pts += s.orb * 0.5;
-  pts += s.drb * 0.25;
-  pts += s.ast * 0.375;
-  pts += s.stl * 0.75;
-  pts += s.blk * 0.75;
-  pts += s.tov * -1;
-  return parseFloat(pts.toFixed(2));
+  let p = 0, diff = s.score1 - s.score2;
+  if (s.rank1 > 0) p += (26 - s.rank1) / 5;
+  if (s.rank2 > 0 && diff > 0) p += (26 - s.rank2) / 5;
+  p += diff / 2;
+  p += s.three_pm * 0.5 + s.fga * -0.25 + s.fgm * 0.5;
+  p += s.fta * -0.25 + s.ftm * 0.5;
+  p += s.orb * 0.5 + s.drb * 0.25;
+  p += s.ast * 0.375 + s.stl * 0.75 + s.blk * 0.75 + s.tov * -1;
+  return parseFloat(p.toFixed(2));
 }
-
 function calcCFBPoints(s) {
-  let pts = 0;
-  const diff = s.score1 - s.score2;
-  if (diff > 0) pts += 3;
-  if (s.rank1 > 0) pts += (26 - s.rank1) / 5;
-  if (s.rank2 > 0 && diff > 0) pts += (26 - s.rank2) / 5;
-  pts += diff / 4;
-  pts += s.pass_td * 0.5;
-  pts += s.rush_td * 0.25;
-  pts += s.completions * 0.1;
-  pts += s.pass_att * -0.05;
-  pts += s.interceptions * -0.5;
-  pts += s.fumbles_lost * -0.5;
-  return parseFloat(pts.toFixed(2));
+  let p = 0, diff = s.score1 - s.score2;
+  if (diff > 0) p += 3;
+  if (s.rank1 > 0) p += (26 - s.rank1) / 5;
+  if (s.rank2 > 0 && diff > 0) p += (26 - s.rank2) / 5;
+  p += diff / 4;
+  p += s.pass_td * 0.5 + s.rush_td * 0.25;
+  p += s.completions * 0.1 + s.pass_att * -0.05;
+  p += s.interceptions * -0.5 + s.fumbles_lost * -0.5;
+  return parseFloat(p.toFixed(2));
 }
 
-// ── Teams data ───────────────────────────────────────────────
+// ── Schedule generation ───────────────────────────────────────
+function generateSchedule(memberIds, regularWeeks) {
+  // Round-robin that repeats until regularWeeks filled
+  const n = memberIds.length;
+  const schedule = [];
+  // Build one full round-robin cycle
+  const cycle = [];
+  const ids = [...memberIds];
+  if (ids.length % 2 !== 0) ids.push('BYE');
+  const half = ids.length / 2;
+  for (let r = 0; r < ids.length - 1; r++) {
+    const pairs = [];
+    for (let i = 0; i < half; i++) {
+      const a = ids[i], b = ids[ids.length - 1 - i];
+      if (a !== 'BYE' && b !== 'BYE') pairs.push([a, b]);
+    }
+    cycle.push(pairs);
+    ids.splice(1, 0, ids.pop());
+  }
+  // Fill weeks by repeating cycle
+  for (let w = 0; w < regularWeeks; w++) {
+    schedule.push({ week: w + 1, pairs: cycle[w % cycle.length], isPlayoff: false });
+  }
+  return schedule;
+}
+
+function calcPlayoffRounds(n) {
+  // Find smallest power of 2 >= n/2 participants... just use log2
+  // e.g. 4 members → 2 playoff teams per side → 2 rounds
+  // e.g. 8 members → 4 playoff spots → need ceil(log2(4))=2 rounds? 
+  // Actually: top half advance. With 4 members, top 2 play = 1 round. With 8, top 4 = 2 rounds.
+  const playoffTeams = Math.floor(n / 2);
+  return Math.ceil(Math.log2(playoffTeams)) + (playoffTeams <= 1 ? 1 : 0);
+}
+
+// ── Full FBS team list ────────────────────────────────────────
 const CFB_TEAMS = [
-  'Alabama','Arizona','Arizona State','Arkansas','Auburn','Baylor','Boston College',
-  'California','Cincinnati','Clemson','Colorado','Duke','Florida','Florida State',
-  'Georgia','Georgia Tech','Houston','Illinois','Indiana','Iowa','Iowa State',
-  'Kansas','Kansas State','Kentucky','Louisiana State','Louisville','Maryland',
-  'Miami','Michigan','Michigan State','Minnesota','Mississippi','Mississippi State',
-  'Missouri','NC State','Nebraska','North Carolina','Northwestern','Notre Dame',
-  'Ohio State','Oklahoma','Oklahoma State','Ole Miss','Oregon','Oregon State',
-  'Penn State','Pittsburgh','Purdue','Rutgers','SMU','South Carolina','Stanford',
-  'Syracuse','TCU','Tennessee','Texas','Texas A&M','Texas Tech','UCLA','USC',
-  'Utah','Vanderbilt','Virginia','Virginia Tech','Wake Forest','Washington',
-  'Washington State','West Virginia','Wisconsin'
-].map(n=>({name:n,conf:'FBS',sport:'cfb'}));
+  // ACC
+  {name:'Boston College',conf:'ACC'},{name:'California',conf:'ACC'},{name:'Clemson',conf:'ACC'},
+  {name:'Duke',conf:'ACC'},{name:'Florida State',conf:'ACC'},{name:'Georgia Tech',conf:'ACC'},
+  {name:'Louisville',conf:'ACC'},{name:'Miami',conf:'ACC'},{name:'NC State',conf:'ACC'},
+  {name:'North Carolina',conf:'ACC'},{name:'Pittsburgh',conf:'ACC'},{name:'SMU',conf:'ACC'},
+  {name:'Stanford',conf:'ACC'},{name:'Syracuse',conf:'ACC'},{name:'Virginia',conf:'ACC'},
+  {name:'Virginia Tech',conf:'ACC'},{name:'Wake Forest',conf:'ACC'},
+  // Big 12
+  {name:'Arizona',conf:'Big 12'},{name:'Arizona State',conf:'Big 12'},{name:'Baylor',conf:'Big 12'},
+  {name:'BYU',conf:'Big 12'},{name:'Cincinnati',conf:'Big 12'},{name:'Colorado',conf:'Big 12'},
+  {name:'Houston',conf:'Big 12'},{name:'Iowa State',conf:'Big 12'},{name:'Kansas',conf:'Big 12'},
+  {name:'Kansas State',conf:'Big 12'},{name:'Oklahoma State',conf:'Big 12'},{name:'TCU',conf:'Big 12'},
+  {name:'Texas Tech',conf:'Big 12'},{name:'UCF',conf:'Big 12'},{name:'Utah',conf:'Big 12'},
+  {name:'West Virginia',conf:'Big 12'},
+  // Big Ten
+  {name:'Illinois',conf:'Big Ten'},{name:'Indiana',conf:'Big Ten'},{name:'Iowa',conf:'Big Ten'},
+  {name:'Maryland',conf:'Big Ten'},{name:'Michigan',conf:'Big Ten'},{name:'Michigan State',conf:'Big Ten'},
+  {name:'Minnesota',conf:'Big Ten'},{name:'Nebraska',conf:'Big Ten'},{name:'Northwestern',conf:'Big Ten'},
+  {name:'Ohio State',conf:'Big Ten'},{name:'Oregon',conf:'Big Ten'},{name:'Penn State',conf:'Big Ten'},
+  {name:'Purdue',conf:'Big Ten'},{name:'Rutgers',conf:'Big Ten'},{name:'UCLA',conf:'Big Ten'},
+  {name:'USC',conf:'Big Ten'},{name:'Washington',conf:'Big Ten'},{name:'Wisconsin',conf:'Big Ten'},
+  // SEC
+  {name:'Alabama',conf:'SEC'},{name:'Arkansas',conf:'SEC'},{name:'Auburn',conf:'SEC'},
+  {name:'Florida',conf:'SEC'},{name:'Georgia',conf:'SEC'},{name:'Kentucky',conf:'SEC'},
+  {name:'LSU',conf:'SEC'},{name:'Mississippi State',conf:'SEC'},{name:'Missouri',conf:'SEC'},
+  {name:'Oklahoma',conf:'SEC'},{name:'Ole Miss',conf:'SEC'},{name:'South Carolina',conf:'SEC'},
+  {name:'Tennessee',conf:'SEC'},{name:'Texas',conf:'SEC'},{name:'Texas A&M',conf:'SEC'},
+  {name:'Vanderbilt',conf:'SEC'},
+  // AAC
+  {name:'Army',conf:'AAC'},{name:'Charlotte',conf:'AAC'},{name:'East Carolina',conf:'AAC'},
+  {name:'Florida Atlantic',conf:'AAC'},{name:'Memphis',conf:'AAC'},{name:'Navy',conf:'AAC'},
+  {name:'North Texas',conf:'AAC'},{name:'Rice',conf:'AAC'},{name:'South Florida',conf:'AAC'},
+  {name:'Temple',conf:'AAC'},{name:'Tulane',conf:'AAC'},{name:'Tulsa',conf:'AAC'},
+  {name:'UAB',conf:'AAC'},{name:'UTSA',conf:'AAC'},
+  // Mountain West
+  {name:'Air Force',conf:'MWC'},{name:'Boise State',conf:'MWC'},{name:'Colorado State',conf:'MWC'},
+  {name:'Fresno State',conf:'MWC'},{name:'Hawaii',conf:'MWC'},{name:'Nevada',conf:'MWC'},
+  {name:'New Mexico',conf:'MWC'},{name:'San Diego State',conf:'MWC'},{name:'San Jose State',conf:'MWC'},
+  {name:'UNLV',conf:'MWC'},{name:'Utah State',conf:'MWC'},{name:'Wyoming',conf:'MWC'},
+  // Sun Belt
+  {name:'Appalachian State',conf:'Sun Belt'},{name:'Arkansas State',conf:'Sun Belt'},
+  {name:'Coastal Carolina',conf:'Sun Belt'},{name:'Georgia Southern',conf:'Sun Belt'},
+  {name:'Georgia State',conf:'Sun Belt'},{name:'James Madison',conf:'Sun Belt'},
+  {name:'Louisiana',conf:'Sun Belt'},{name:'Louisiana Monroe',conf:'Sun Belt'},
+  {name:'Marshall',conf:'Sun Belt'},{name:'Old Dominion',conf:'Sun Belt'},
+  {name:'South Alabama',conf:'Sun Belt'},{name:'Southern Miss',conf:'Sun Belt'},
+  {name:'Texas State',conf:'Sun Belt'},{name:'Troy',conf:'Sun Belt'},
+  // MAC
+  {name:'Akron',conf:'MAC'},{name:'Ball State',conf:'MAC'},{name:'Bowling Green',conf:'MAC'},
+  {name:'Buffalo',conf:'MAC'},{name:'Central Michigan',conf:'MAC'},{name:'Eastern Michigan',conf:'MAC'},
+  {name:'Kent State',conf:'MAC'},{name:'Miami (OH)',conf:'MAC'},{name:'Northern Illinois',conf:'MAC'},
+  {name:'Ohio',conf:'MAC'},{name:'Toledo',conf:'MAC'},{name:'Western Michigan',conf:'MAC'},
+  // Independents
+  {name:'Notre Dame',conf:'Ind'},{name:'Liberty',conf:'Ind'},{name:'New Mexico State',conf:'Ind'},
+  {name:'Connecticut',conf:'Ind'},{name:'Jacksonville State',conf:'Ind'},
+  {name:'Sam Houston State',conf:'Ind'},
+].sort((a,b)=>a.name.localeCompare(b.name));
 
 const CBB_TEAMS = [
-  'Alabama','Arizona','Arizona State','Arkansas','Auburn','Baylor','Boston College',
-  'Butler','California','Cincinnati','Clemson','Colorado','Connecticut','Creighton',
-  'Davidson','DePaul','Duke','Florida','Florida State','Georgetown','Georgia',
-  'Georgia Tech','Gonzaga','Houston','Illinois','Indiana','Iowa','Iowa State',
-  'Kansas','Kansas State','Kentucky','Louisville','Loyola Chicago','Marquette',
-  'Maryland','Memphis','Miami','Michigan','Michigan State','Minnesota','Missouri',
-  'NC State','Nebraska','North Carolina','Northwestern','Notre Dame','Ohio State',
-  'Oklahoma','Oklahoma State','Oregon','Penn State','Pittsburgh','Providence',
-  'Purdue','Rhode Island','Rutgers','Saint Louis','San Diego State','Seton Hall',
-  'South Carolina','St. John\'s','Stanford','Syracuse','TCU','Temple','Tennessee',
-  'Texas','Texas A&M','Texas Tech','UCLA','USC','Utah','Utah State','Vanderbilt',
-  'Villanova','Virginia','Virginia Tech','Wake Forest','Washington','West Virginia',
-  'Wichita State','Wisconsin','Xavier'
-].map(n=>({name:n,conf:'D1',sport:'cbb'}));
+  {name:'Alabama',conf:'SEC'},{name:'Arizona',conf:'Big 12'},{name:'Arizona State',conf:'Big 12'},
+  {name:'Arkansas',conf:'SEC'},{name:'Auburn',conf:'SEC'},{name:'Baylor',conf:'Big 12'},
+  {name:'Boston College',conf:'ACC'},{name:'Butler',conf:'Big East'},{name:'BYU',conf:'Big 12'},
+  {name:'California',conf:'ACC'},{name:'Cincinnati',conf:'Big 12'},{name:'Clemson',conf:'ACC'},
+  {name:'Colorado',conf:'Big 12'},{name:'Connecticut',conf:'Big East'},{name:'Creighton',conf:'Big East'},
+  {name:'Davidson',conf:'A-10'},{name:'DePaul',conf:'Big East'},{name:'Duke',conf:'ACC'},
+  {name:'Florida',conf:'SEC'},{name:'Florida State',conf:'ACC'},{name:'Georgetown',conf:'Big East'},
+  {name:'Georgia',conf:'SEC'},{name:'Georgia Tech',conf:'ACC'},{name:'Gonzaga',conf:'WCC'},
+  {name:'Houston',conf:'Big 12'},{name:'Illinois',conf:'Big Ten'},{name:'Indiana',conf:'Big Ten'},
+  {name:'Iowa',conf:'Big Ten'},{name:'Iowa State',conf:'Big 12'},{name:'Kansas',conf:'Big 12'},
+  {name:'Kansas State',conf:'Big 12'},{name:'Kentucky',conf:'SEC'},{name:'Louisville',conf:'ACC'},
+  {name:'Loyola Chicago',conf:'MVC'},{name:'Marquette',conf:'Big East'},{name:'Maryland',conf:'Big Ten'},
+  {name:'Memphis',conf:'AAC'},{name:'Miami',conf:'ACC'},{name:'Michigan',conf:'Big Ten'},
+  {name:'Michigan State',conf:'Big Ten'},{name:'Minnesota',conf:'Big Ten'},{name:'Missouri',conf:'SEC'},
+  {name:'NC State',conf:'ACC'},{name:'Nebraska',conf:'Big Ten'},{name:'North Carolina',conf:'ACC'},
+  {name:'Northwestern',conf:'Big Ten'},{name:'Notre Dame',conf:'ACC'},{name:'Ohio State',conf:'Big Ten'},
+  {name:'Oklahoma',conf:'SEC'},{name:'Oklahoma State',conf:'Big 12'},{name:'Oregon',conf:'Big Ten'},
+  {name:'Penn State',conf:'Big Ten'},{name:'Pittsburgh',conf:'ACC'},{name:'Providence',conf:'Big East'},
+  {name:'Purdue',conf:'Big Ten'},{name:'Rutgers',conf:'Big Ten'},{name:'Saint Louis',conf:'A-10'},
+  {name:'San Diego State',conf:'MWC'},{name:'Seton Hall',conf:'Big East'},{name:'SMU',conf:'ACC'},
+  {name:"St. John's",conf:'Big East'},{name:'Stanford',conf:'ACC'},{name:'Syracuse',conf:'ACC'},
+  {name:'South Carolina',conf:'SEC'},{name:'TCU',conf:'Big 12'},{name:'Temple',conf:'AAC'},
+  {name:'Tennessee',conf:'SEC'},{name:'Texas',conf:'SEC'},{name:'Texas A&M',conf:'SEC'},
+  {name:'Texas Tech',conf:'Big 12'},{name:'UCLA',conf:'Big Ten'},{name:'USC',conf:'Big Ten'},
+  {name:'Utah',conf:'Big 12'},{name:'Utah State',conf:'MWC'},{name:'Vanderbilt',conf:'SEC'},
+  {name:'Villanova',conf:'Big East'},{name:'Virginia',conf:'ACC'},{name:'Virginia Tech',conf:'ACC'},
+  {name:'Wake Forest',conf:'ACC'},{name:'Washington',conf:'Big Ten'},{name:'West Virginia',conf:'Big 12'},
+  {name:'Wichita State',conf:'AAC'},{name:'Wisconsin',conf:'Big Ten'},{name:'Xavier',conf:'Big East'},
+].sort((a,b)=>a.name.localeCompare(b.name));
 
 // ── Helpers ──────────────────────────────────────────────────
-function toast(msg, dur=2400) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), dur);
-}
-function setError(id, msg) { const el = document.getElementById(id); if(el) el.textContent = msg; }
-function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-function genCode() { return Math.random().toString(36).substring(2,8).toUpperCase(); }
-function showScoringTab(sport, btn) {
-  document.getElementById('scoring-cbb').style.display = sport==='cbb' ? 'block' : 'none';
-  document.getElementById('scoring-cfb').style.display = sport==='cfb' ? 'block' : 'none';
-  document.querySelectorAll('.tab-pill').forEach(b => b.classList.remove('active'));
+function toast(msg,dur=2400){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),dur);}
+function setError(id,msg){const el=document.getElementById(id);if(el)el.textContent=msg;}
+function closeModal(id){document.getElementById(id).style.display='none';}
+function genCode(){return Math.random().toString(36).substring(2,8).toUpperCase();}
+function showScoringTab(sport,btn){
+  document.getElementById('scoring-cbb').style.display=sport==='cbb'?'block':'none';
+  document.getElementById('scoring-cfb').style.display=sport==='cfb'?'block':'none';
+  document.querySelectorAll('.tab-pill').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
 }
-
-function showPage(p, btn) {
-  document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(x => x.classList.remove('active'));
-  document.getElementById('page-' + p).classList.add('active');
-  if(btn) btn.classList.add('active');
-  if(p === 'leagues') renderLeagues();
-  if(p === 'league' && currentLeague) renderLeague();
+function showPage(p,btn){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(p==='leagues')renderLeagues();
+  if(p==='league'&&currentLeague)renderLeague();
 }
 
 // ── Auth ─────────────────────────────────────────────────────
-let isSignup = false;
-function toggleAuth() {
-  isSignup = !isSignup;
-  document.getElementById('auth-sub').textContent = isSignup ? 'Create your account' : 'Sign in to play';
-  document.getElementById('auth-signup-fields').style.display = isSignup ? 'block' : 'none';
-  document.getElementById('auth-main-btn').textContent = isSignup ? 'Sign Up' : 'Sign In';
-  document.getElementById('auth-switch').innerHTML = isSignup
-    ? 'Have an account? <a onclick="toggleAuth()">Sign in</a>'
-    : 'No account? <a onclick="toggleAuth()">Sign up free</a>';
-  setError('auth-error', '');
+function toggleAuth(){
+  isSignup=!isSignup;
+  document.getElementById('auth-sub').textContent=isSignup?'Create your account':'Sign in to play';
+  document.getElementById('auth-signup-fields').style.display=isSignup?'block':'none';
+  document.getElementById('auth-main-btn').textContent=isSignup?'Sign Up':'Sign In';
+  document.getElementById('auth-switch').innerHTML=isSignup?'Have an account? <a onclick="toggleAuth()">Sign in</a>':'No account? <a onclick="toggleAuth()">Sign up free</a>';
+  setError('auth-error','');
 }
-
-async function authSubmit() {
-  try {
-    setError('auth-error', '');
-    const email = document.getElementById('auth-email').value.trim();
-    const pass = document.getElementById('auth-password').value;
-    if (!email || !pass) { setError('auth-error', 'Fill in all fields.'); return; }
-    const btn = document.getElementById('auth-main-btn');
-    btn.textContent = '...'; btn.disabled = true;
-    if (isSignup) {
-      const username = document.getElementById('auth-username').value.trim();
-      if (!username) { setError('auth-error', 'Enter a username.'); btn.textContent = 'Sign Up'; btn.disabled = false; return; }
-      const { data, error } = await sb.auth.signUp({ email, password: pass });
-      if (error) { setError('auth-error', error.message); btn.textContent = 'Sign Up'; btn.disabled = false; return; }
-      await sb.from('profiles').insert({ id: data.user.id, username });
+async function authSubmit(){
+  try{
+    setError('auth-error','');
+    const email=document.getElementById('auth-email').value.trim();
+    const pass=document.getElementById('auth-password').value;
+    if(!email||!pass){setError('auth-error','Fill in all fields.');return;}
+    const btn=document.getElementById('auth-main-btn');
+    btn.textContent='...';btn.disabled=true;
+    if(isSignup){
+      const username=document.getElementById('auth-username').value.trim();
+      if(!username){setError('auth-error','Enter a username.');btn.textContent='Sign Up';btn.disabled=false;return;}
+      const{data,error}=await sb.auth.signUp({email,password:pass});
+      if(error){setError('auth-error',error.message);btn.textContent='Sign Up';btn.disabled=false;return;}
+      await sb.from('profiles').insert({id:data.user.id,username});
       toast('Welcome! 🎉');
-    } else {
-      const { error } = await sb.auth.signInWithPassword({ email, password: pass });
-      if (error) { setError('auth-error', 'Incorrect email or password.'); btn.textContent = 'Sign In'; btn.disabled = false; return; }
+    }else{
+      const{error}=await sb.auth.signInWithPassword({email,password:pass});
+      if(error){setError('auth-error','Incorrect email or password.');btn.textContent='Sign In';btn.disabled=false;return;}
     }
-    btn.textContent = isSignup ? 'Sign Up' : 'Sign In'; btn.disabled = false;
-  } catch(e) { setError('auth-error', 'Error: ' + e.message); }
+    btn.textContent=isSignup?'Sign Up':'Sign In';btn.disabled=false;
+  }catch(e){setError('auth-error','Error: '+e.message);}
 }
-
-function showAccountModal() {
-  if (!currentUser) return;
-  document.getElementById('account-name').textContent = currentProfile?.username || currentUser.email;
-  document.getElementById('account-modal').style.display = 'flex';
+function showAccountModal(){
+  if(!currentUser)return;
+  document.getElementById('account-name').textContent=currentProfile?.username||currentUser.email;
+  document.getElementById('account-modal').style.display='flex';
 }
-
-async function logout() {
-  try { await sb.auth.signOut(); } catch(e) {}
-  currentUser = null; currentProfile = null; currentLeague = null;
+async function logout(){
+  try{await sb.auth.signOut();}catch(e){}
+  currentUser=null;currentProfile=null;currentLeague=null;
   closeModal('account-modal');
-  document.getElementById('auth-overlay').style.display = 'flex';
-  document.getElementById('header-name').textContent = 'Guest';
-  document.getElementById('nav-league').style.display = 'none';
-  showPage('home', document.getElementById('nav-home'));
+  document.getElementById('auth-overlay').style.display='flex';
+  document.getElementById('header-name').textContent='Guest';
+  document.getElementById('nav-league').style.display='none';
+  showPage('home',document.getElementById('nav-home'));
 }
 
-// ── Leagues ──────────────────────────────────────────────────
-function showCreateLeague() {
-  if (!currentUser) { toast('Sign in first!'); return; }
-  document.getElementById('create-league-modal').style.display = 'flex';
-}
-function showJoinLeague() {
-  if (!currentUser) { toast('Sign in first!'); return; }
-  document.getElementById('join-code').value = '';
-  setError('join-error', '');
-  document.getElementById('join-league-modal').style.display = 'flex';
-}
+// ── League creation ───────────────────────────────────────────
+function showCreateLeague(){if(!currentUser){toast('Sign in first!');return;}document.getElementById('create-league-modal').style.display='flex';}
+function showJoinLeague(){if(!currentUser){toast('Sign in first!');return;}document.getElementById('join-code').value='';setError('join-error','');document.getElementById('join-league-modal').style.display='flex';}
 
-async function createLeague() {
-  setError('cl-error', '');
-  const name = document.getElementById('cl-name').value.trim();
-  const sport = document.getElementById('cl-sport').value;
-  const rosterSize = parseInt(document.getElementById('cl-roster').value);
-  const draftType = document.getElementById('cl-draft').value;
-  const pickHours = parseInt(document.getElementById('cl-hours').value);
-  const year = parseInt(document.getElementById('cl-year').value);
-  if (!name) { setError('cl-error', 'Enter a league name.'); return; }
-  if (rosterSize < 2 || rosterSize > 20) { setError('cl-error', 'Roster size must be 2-20.'); return; }
-  const code = genCode();
-  const { data: league, error } = await sb.from('leagues').insert({
-    name, sport, roster_size: rosterSize, draft_type: draftType,
-    pick_hours: pickHours, year, join_code: code,
-    commissioner_id: currentUser.id, status: 'drafting', current_pick: 1
+async function createLeague(){
+  setError('cl-error','');
+  const name=document.getElementById('cl-name').value.trim();
+  const sport=document.getElementById('cl-sport').value;
+  const rosterSize=parseInt(document.getElementById('cl-roster').value);
+  const pickHours=parseInt(document.getElementById('cl-hours').value);
+  const year=parseInt(document.getElementById('cl-year').value);
+  if(!name){setError('cl-error','Enter a league name.');return;}
+  if(rosterSize<2||rosterSize>20){setError('cl-error','Roster size 2-20.');return;}
+  const code=genCode();
+  const{data:league,error}=await sb.from('leagues').insert({
+    name,sport,roster_size:rosterSize,pick_hours:pickHours,year,
+    join_code:code,commissioner_id:currentUser.id,
+    status:'drafting',current_week:1,season_started:false
   }).select().single();
-  if (error) { setError('cl-error', error.message); return; }
-  // Add commissioner as first member
-  await sb.from('league_members').insert({ league_id: league.id, user_id: currentUser.id, draft_order: 1, total_points: 0 });
+  if(error){setError('cl-error',error.message);return;}
+  await sb.from('league_members').insert({league_id:league.id,user_id:currentUser.id,draft_order:1,total_points:0,wins:0,losses:0});
   closeModal('create-league-modal');
-  toast('League created! Share the code: ' + code);
+  toast('League created! Code: '+code);
   openLeague(league);
 }
 
-async function joinLeague() {
-  setError('join-error', '');
-  const code = document.getElementById('join-code').value.trim().toUpperCase();
-  if (!code) { setError('join-error', 'Enter a join code.'); return; }
-  const { data: league, error } = await sb.from('leagues').select('*').eq('join_code', code).single();
-  if (error || !league) { setError('join-error', 'League not found. Check the code.'); return; }
-  // Check already a member
-  const { data: existing } = await sb.from('league_members').select('id').eq('league_id', league.id).eq('user_id', currentUser.id).single();
-  if (existing) { closeModal('join-league-modal'); openLeague(league); return; }
-  // Get current member count for draft order
-  const { count } = await sb.from('league_members').select('id', { count: 'exact' }).eq('league_id', league.id);
-  await sb.from('league_members').insert({ league_id: league.id, user_id: currentUser.id, draft_order: (count||0) + 1, total_points: 0 });
+async function joinLeague(){
+  setError('join-error','');
+  const code=document.getElementById('join-code').value.trim().toUpperCase();
+  if(!code){setError('join-error','Enter a join code.');return;}
+  const{data:league,error}=await sb.from('leagues').select('*').eq('join_code',code).single();
+  if(error||!league){setError('join-error','League not found.');return;}
+  if(league.season_started){setError('join-error','Season already started, cannot join.');return;}
+  const{data:existing}=await sb.from('league_members').select('id').eq('league_id',league.id).eq('user_id',currentUser.id).single();
+  if(existing){closeModal('join-league-modal');openLeague(league);return;}
+  const{count}=await sb.from('league_members').select('id',{count:'exact'}).eq('league_id',league.id);
+  await sb.from('league_members').insert({league_id:league.id,user_id:currentUser.id,draft_order:(count||0)+1,total_points:0,wins:0,losses:0});
   closeModal('join-league-modal');
-  toast('Joined ' + league.name + '!');
+  toast('Joined '+league.name+'!');
   openLeague(league);
 }
 
-async function renderLeagues() {
-  const el = document.getElementById('leagues-list');
-  el.innerHTML = '<div class="loading"><span class="spinner"></span>Loading...</div>';
-  const { data: memberships } = await sb.from('league_members').select('league_id').eq('user_id', currentUser.id);
-  if (!memberships?.length) { el.innerHTML = '<div class="no-data">No leagues yet. Create or join one!</div>'; return; }
-  const ids = memberships.map(m => m.league_id);
-  const { data: leagues } = await sb.from('leagues').select('*').in('id', ids);
-  el.innerHTML = (leagues||[]).map(l => `
+async function renderLeagues(){
+  const el=document.getElementById('leagues-list');
+  el.innerHTML='<div class="loading"><span class="spinner"></span>Loading...</div>';
+  const{data:memberships}=await sb.from('league_members').select('league_id').eq('user_id',currentUser.id);
+  if(!memberships?.length){el.innerHTML='<div class="no-data">No leagues yet. Create or join one!</div>';return;}
+  const ids=memberships.map(m=>m.league_id);
+  const{data:leagues}=await sb.from('leagues').select('*').in('id',ids);
+  el.innerHTML=(leagues||[]).map(l=>`
     <div class="league-card" onclick="openLeagueById('${l.id}')">
       <div class="league-card-header">
         <div class="league-name">${l.name}</div>
-        <span class="sport-badge sport-${l.sport}">${l.sport === 'cfb' ? '🏈 CFB' : '🏀 CBB'}</span>
+        <span class="sport-badge sport-${l.sport}">${l.sport==='cfb'?'🏈 CFB':'🏀 CBB'}</span>
       </div>
-      <div class="league-meta">📅 ${l.year} · ${l.roster_size} teams per roster · Code: <strong style="color:var(--gold)">${l.join_code}</strong> · <span class="badge badge-${l.status==='active'?'green':l.status==='drafting'?'yellow':'blue'}">${l.status}</span></div>
+      <div class="league-meta">📅 ${l.year} · ${l.roster_size} teams · Code: <strong style="color:var(--gold)">${l.join_code}</strong> · <span class="badge badge-${l.season_started?'green':'yellow'}">${l.season_started?'Week '+l.current_week:'Drafting'}</span></div>
     </div>`).join('');
 }
 
-async function openLeagueById(id) {
-  const { data: league } = await sb.from('leagues').select('*').eq('id', id).single();
-  if (league) openLeague(league);
+async function openLeagueById(id){
+  const{data:league}=await sb.from('leagues').select('*').eq('id',id).single();
+  if(league)openLeague(league);
 }
-
-function openLeague(league) {
-  currentLeague = league;
-  document.getElementById('nav-league').style.display = '';
-  showPage('league', document.getElementById('nav-league'));
+function openLeague(league){
+  currentLeague=league;
+  document.getElementById('nav-league').style.display='';
+  showPage('league',document.getElementById('nav-league'));
 }
 
 // ── League detail ─────────────────────────────────────────────
-async function renderLeague() {
-  const el = document.getElementById('league-content');
-  el.innerHTML = '<div class="loading"><span class="spinner"></span>Loading league...</div>';
-  const l = currentLeague;
+async function renderLeague(){
+  const el=document.getElementById('league-content');
+  el.innerHTML='<div class="loading"><span class="spinner"></span>Loading...</div>';
+  const l=currentLeague;
 
-  // Get members with profiles
-  const { data: members } = await sb.from('league_members')
-    .select('*, profiles(username)')
-    .eq('league_id', l.id)
-    .order('draft_order');
+  const{data:members}=await sb.from('league_members').select('*,profiles(username)').eq('league_id',l.id).order('draft_order');
+  const{data:picks}=await sb.from('draft_picks').select('*').eq('league_id',l.id).order('pick_number');
+  const draftedSet=new Set((picks||[]).map(p=>p.team_name.toLowerCase()));
+  draftedTeams=[...draftedSet];
 
-  // Get my membership
-  currentMember = members?.find(m => m.user_id === currentUser.id);
+  const totalPicks=(members||[]).length*l.roster_size;
+  const picksMade=(picks||[]).length;
+  const draftComplete=picksMade>=totalPicks;
 
-  // Get all picks for this league
-  const { data: picks } = await sb.from('draft_picks')
-    .select('*')
-    .eq('league_id', l.id)
-    .order('pick_number');
+  // Snake draft order
+  let currentPickerMember=null;
+  if(!draftComplete&&members?.length){
+    const round=Math.floor(picksMade/members.length);
+    const pos=picksMade%members.length;
+    const idx=round%2===0?pos:(members.length-1-pos);
+    currentPickerMember=members[idx];
+  }
+  const isMyTurn=currentPickerMember?.user_id===currentUser.id;
+  const isCommissioner=l.commissioner_id===currentUser.id;
+  const memberRosters={};
+  (picks||[]).forEach(p=>{if(!memberRosters[p.user_id])memberRosters[p.user_id]=[];memberRosters[p.user_id].push(p);});
 
-  const draftedSet = new Set((picks||[]).map(p => p.team_name.toLowerCase()));
-  draftedTeams = [...draftedSet];
+  // Calculate playoff info
+  const numMembers=(members||[]).length;
+  const playoffRounds=numMembers>=2?calcPlayoffRounds(numMembers):1;
+  const regularWeeks=15-playoffRounds;
+  const currentWeek=l.current_week||1;
+  const isPlayoffWeek=l.season_started&&currentWeek>regularWeeks;
+  const isPlayoffTime=isPlayoffWeek;
 
-  // Figure out whose turn it is
-  const totalPicks = (members||[]).length * l.roster_size;
-  const picksMade = (picks||[]).length;
-  const isComplete = picksMade >= totalPicks;
-  const currentPickNum = picksMade + 1;
-
-  // Snake draft: figure out who picks now
-  let currentPickerMember = null;
-  if (!isComplete && members?.length) {
-    const round = Math.floor(picksMade / members.length);
-    const posInRound = picksMade % members.length;
-    const idx = round % 2 === 0 ? posInRound : (members.length - 1 - posInRound);
-    currentPickerMember = members[idx];
+  // Get current week matchups
+  let weekMatchups=[];
+  if(l.season_started){
+    const{data:mu}=await sb.from('matchups').select('*').eq('league_id',l.id).eq('week',currentWeek);
+    weekMatchups=mu||[];
   }
 
-  const isMyTurn = currentPickerMember?.user_id === currentUser.id;
-  const isCommissioner = l.commissioner_id === currentUser.id;
-  const sport = l.sport;
+  // Can start season?
+  const canStart=isCommissioner&&draftComplete&&numMembers>=2&&numMembers%2===0&&!l.season_started;
+  const notEnoughMembers=numMembers<2||(numMembers%2!==0);
 
-  // Build roster view per member
-  const memberRosters = {};
-  (picks||[]).forEach(p => {
-    if (!memberRosters[p.user_id]) memberRosters[p.user_id] = [];
-    memberRosters[p.user_id].push(p);
-  });
-
-  el.innerHTML = `
+  let html=`
     <div class="card">
       <div class="card-header">
         <div>
           <h2>${l.name}</h2>
-          <div style="font-size:12px;color:var(--muted);margin-top:2px">${sport==='cfb'?'🏈 CFB':'🏀 CBB'} · ${l.year} · ${l.roster_size} teams per roster</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:2px">${l.sport==='cfb'?'🏈 CFB':'🏀 CBB'} · ${l.year} · ${l.roster_size} teams/roster · ${numMembers} members</div>
         </div>
-        <div class="join-code" style="font-size:20px;letter-spacing:4px;padding:8px 14px;margin:0">${l.join_code}</div>
+        <div class="join-code-display">${l.join_code}</div>
       </div>
-    </div>
+      ${!l.season_started&&notEnoughMembers&&isCommissioner?`<div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:10px;padding:10px;font-size:13px;color:#fcd34d;text-align:center">Need at least 2 members and an even number to start the season</div>`:''}
+    </div>`;
 
-    ${!isComplete ? `
-    <div class="card">
-      <h3>🎯 Draft Board — Pick ${currentPickNum} of ${totalPicks}</h3>
-      ${isMyTurn ? `
-        <div class="your-turn-banner">
-          <h3>⭐ It's your turn to pick!</h3>
-          <p style="font-size:13px;color:var(--muted)">Choose a team for your roster</p>
-          <button class="btn btn-gold" style="margin-top:10px" onclick="showPickModal()">Make My Pick →</button>
-        </div>` : `
-        <div style="text-align:center;padding:12px;background:rgba(255,255,255,0.02);border-radius:10px;margin-bottom:14px;font-size:13px;color:var(--muted)">
-          Waiting for <strong style="color:var(--gold)">${currentPickerMember?.profiles?.username || 'someone'}</strong> to pick...
-        </div>`}
-      <div class="draft-board" id="draft-board">
-        ${buildDraftBoard(members||[], picks||[], l)}
+  // Draft section
+  if(!draftComplete){
+    html+=`<div class="card">
+      <h3>🎯 Draft Board — Pick ${picksMade+1} of ${totalPicks}</h3>
+      ${isMyTurn?`<div class="your-turn-banner"><h3>⭐ Your turn to pick!</h3><button class="btn btn-gold" style="margin-top:8px" onclick="showPickModal()">Make My Pick →</button></div>`:`<div style="text-align:center;padding:12px;background:rgba(255,255,255,0.02);border-radius:10px;margin-bottom:12px;font-size:13px;color:var(--muted)">Waiting for <strong style="color:var(--gold)">${currentPickerMember?.profiles?.username||'?'}</strong>...</div>`}
+      <div class="draft-board">${buildDraftBoard(members||[],picks||[],l)}</div>
+    </div>`;
+  }
+
+  // Season view
+  if(l.season_started){
+    if(isPlayoffTime){
+      html+=`<div class="playoff-banner"><h3>🏆 PLAYOFFS — Week ${currentWeek}</h3><p style="font-size:13px;color:var(--muted)">Round ${currentWeek-regularWeeks} of ${playoffRounds}</p></div>`;
+    }
+    // Current week matchups
+    html+=`<div class="card">
+      <div class="week-header">
+        <div class="week-label">${isPlayoffTime?'🏆 Playoffs':'📅 Week '+currentWeek} ${currentWeek<=regularWeeks?'of '+regularWeeks:''}</div>
       </div>
-    </div>` : ''}
+      ${weekMatchups.length?weekMatchups.map(mu=>{
+        const m1=members?.find(m=>m.user_id===mu.user1_id);
+        const m2=members?.find(m=>m.user_id===mu.user2_id);
+        const winner=mu.winner_id;
+        return`<div class="matchup-card ${winner?'matchup-winner':''}">
+          <div class="matchup-teams">
+            <div class="matchup-team" style="${winner===mu.user1_id?'color:var(--gold)':''}">
+              <div class="matchup-name">${m1?.profiles?.username||'?'}</div>
+              <div class="matchup-score">${(mu.score1||0).toFixed(1)}</div>
+              <div style="font-size:11px;color:var(--muted)">${m1?.wins||0}-${m1?.losses||0}</div>
+            </div>
+            <div class="matchup-vs">VS</div>
+            <div class="matchup-team" style="${winner===mu.user2_id?'color:var(--gold)':''}">
+              <div class="matchup-name">${m2?.profiles?.username||'?'}</div>
+              <div class="matchup-score">${(mu.score2||0).toFixed(1)}</div>
+              <div style="font-size:11px;color:var(--muted)">${m2?.wins||0}-${m2?.losses||0}</div>
+            </div>
+          </div>
+          ${winner?`<div style="text-align:center;font-size:12px;color:var(--gold);margin-top:8px">✓ Final</div>`:''}
+        </div>`;
+      }).join(''):'<div class="no-data">No matchups yet this week</div>'}
+    </div>`;
+  }
 
-    <div class="card">
-      <h3>🏆 Leaderboard</h3>
-      <div id="leaderboard-section">
-        ${(members||[]).sort((a,b) => b.total_points - a.total_points).map((m,i) => `
-          <div class="lb-row">
-            <div class="lb-rank">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
-            <div class="lb-name">${m.profiles?.username || 'Unknown'}${m.user_id===currentUser.id?' <span style="font-size:11px;color:var(--muted)">(you)</span>':''}</div>
-            <div class="lb-pts">${(m.total_points||0).toFixed(1)} <span style="font-size:12px;color:var(--muted);font-family:DM Sans">pts</span></div>
-          </div>`).join('')}
-      </div>
-    </div>
+  // Standings/Leaderboard
+  html+=`<div class="card">
+    <h3>${l.season_started?'📊 Standings':'🏆 Leaderboard'}</h3>
+    ${(members||[]).sort((a,b)=>{
+      if(l.season_started){const awp=a.wins/(a.wins+a.losses||1),bwp=b.wins/(b.wins+b.losses||1);return bwp-awp||b.total_points-a.total_points;}
+      return b.total_points-a.total_points;
+    }).map((m,i)=>`
+      <div class="lb-row">
+        <div class="lb-rank">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
+        <div class="lb-name">${m.profiles?.username||'?'}${m.user_id===currentUser.id?' <span style="font-size:11px;color:var(--muted)">(you)</span>':''}</div>
+        ${l.season_started?`<div class="lb-record">${m.wins||0}-${m.losses||0}</div>`:''}
+        <div class="lb-pts">${(m.total_points||0).toFixed(1)} <span style="font-size:11px;color:var(--muted);font-family:DM Sans">pts</span></div>
+      </div>`).join('')}
+  </div>`;
 
-    <div class="card">
-      <h3>📋 Rosters</h3>
-      ${(members||[]).map(m => `
-        <div style="margin-bottom:16px">
-          <div style="font-weight:700;font-size:14px;margin-bottom:8px;color:var(--gold)">${m.profiles?.username || 'Unknown'}</div>
-          ${(memberRosters[m.user_id]||[]).length ? `
-            <div class="roster-grid">
-              ${(memberRosters[m.user_id]||[]).map(p => `
-                <div class="roster-card">
-                  <div class="roster-school">${p.team_name}</div>
-                  <div class="roster-pts">${(p.points||0).toFixed(1)}</div>
-                  <div class="roster-pts-lbl">pts</div>
-                </div>`).join('')}
-            </div>` : '<div style="font-size:13px;color:var(--muted);padding:8px 0">No teams drafted yet</div>'}
-        </div>`).join('<hr class="divider"/>')}
-    </div>
+  // Rosters
+  html+=`<div class="card">
+    <h3>📋 Rosters</h3>
+    ${(members||[]).map((m,mi)=>`
+      ${mi>0?'<hr class="divider"/>':''}
+      <div style="margin-bottom:${mi<members.length-1?'0':'0'}">
+        <div style="font-weight:700;font-size:14px;margin-bottom:8px;color:var(--gold)">${m.profiles?.username||'?'} ${l.season_started?`<span style="font-size:12px;color:var(--muted)">${m.wins||0}-${m.losses||0} · ${(m.total_points||0).toFixed(1)}pts</span>`:''}</div>
+        ${(memberRosters[m.user_id]||[]).length?`<div class="roster-grid">${(memberRosters[m.user_id]||[]).map(p=>`<div class="roster-card"><div class="roster-school">${p.team_name}</div><div class="roster-pts">${(p.points||0).toFixed(1)}</div><div class="roster-pts-lbl">pts</div></div>`).join('')}</div>`:'<div style="font-size:13px;color:var(--muted)">No teams yet</div>'}
+      </div>`).join('')}
+  </div>`;
 
-    ${isCommissioner ? `
-    <div class="admin-section">
+  // Commissioner tools
+  if(isCommissioner){
+    html+=`<div class="admin-section">
       <h3>⚙ Commissioner Tools</h3>
-      <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Enter game stats to award points to rosters.</p>
-      <button class="btn btn-gold btn-block" onclick="showSyncModal('${sport}')">+ Add Game Stats</button>
-      ${isComplete && l.status === 'drafting' ? `<button class="btn btn-blue btn-block" style="margin-top:8px" onclick="activateLeague()">✅ Start Season</button>` : ''}
-    </div>` : ''}
-  `;
+      ${canStart?`<button class="btn btn-green btn-block" onclick="startSeason(${regularWeeks})">🚀 Start Season (${regularWeeks} reg. weeks + ${playoffRounds} playoff rounds)</button>`:''}
+      ${l.season_started?`
+        <button class="btn btn-gold btn-block" onclick="showSyncModal('${l.sport}')">+ Enter Game Stats</button>
+        <button class="btn btn-blue btn-block" style="margin-top:8px" onclick="advanceWeek(${regularWeeks},${playoffRounds})">⏭ Close Week & Advance</button>
+      `:''}
+    </div>`;
+  }
+
+  el.innerHTML=html;
 }
 
-function buildDraftBoard(members, picks, league) {
-  if (!members.length) return '<div class="no-data">No members yet</div>';
-  const totalPicks = members.length * league.roster_size;
-  let rows = '';
-  for (let i = 0; i < totalPicks; i++) {
-    const round = Math.floor(i / members.length);
-    const posInRound = i % members.length;
-    const memberIdx = round % 2 === 0 ? posInRound : (members.length - 1 - posInRound);
-    const member = members[memberIdx];
-    const pick = picks[i];
-    const isYours = member?.user_id === currentUser.id;
-    rows += `<div class="pick-card ${isYours ? 'your-pick' : ''}">
+function buildDraftBoard(members,picks,league){
+  if(!members.length)return'<div class="no-data">No members yet</div>';
+  const total=members.length*league.roster_size;
+  let rows='';
+  for(let i=0;i<total;i++){
+    const round=Math.floor(i/members.length);
+    const pos=i%members.length;
+    const idx=round%2===0?pos:(members.length-1-pos);
+    const member=members[idx];
+    const pick=picks[i];
+    const isYours=member?.user_id===currentUser.id;
+    rows+=`<div class="pick-card ${isYours?'your-pick':''}">
       <div class="pick-num">${i+1}</div>
       <div class="pick-info">
-        <div class="pick-owner">${member?.profiles?.username || '?'} · Round ${round+1}</div>
-        <div class="pick-team">${pick ? pick.team_name : '<span style="color:var(--muted)">—</span>'}</div>
+        <div class="pick-owner">${member?.profiles?.username||'?'} · Rd ${round+1}</div>
+        <div class="pick-team">${pick?pick.team_name:'<span style="color:var(--muted)">—</span>'}</div>
       </div>
-      ${pick ? `<span class="badge badge-green">✓</span>` : (i === picks.length ? '<span class="badge badge-yellow">On the clock</span>' : '')}
+      ${pick?'<span class="badge badge-green">✓</span>':(i===picks.length?'<span class="badge badge-yellow">Now</span>':'')}
     </div>`;
   }
   return rows;
 }
 
-// ── Draft pick ────────────────────────────────────────────────
-function showPickModal() {
-  const teams = currentLeague.sport === 'cfb' ? CFB_TEAMS : CBB_TEAMS;
-  allTeams = teams;
+// ── Draft ─────────────────────────────────────────────────────
+function showPickModal(){
+  const teams=currentLeague.sport==='cfb'?CFB_TEAMS:CBB_TEAMS;
+  allTeams=teams;
+  document.getElementById('team-search').value='';
   renderTeamList(teams);
-  document.getElementById('team-search').value = '';
-  document.getElementById('pick-modal').style.display = 'flex';
+  document.getElementById('pick-modal').style.display='flex';
 }
-
-function filterTeams() {
-  const q = document.getElementById('team-search').value.toLowerCase();
-  const filtered = allTeams.filter(t => t.name.toLowerCase().includes(q));
-  renderTeamList(filtered);
+function filterTeams(){
+  const q=document.getElementById('team-search').value.toLowerCase();
+  renderTeamList(allTeams.filter(t=>t.name.toLowerCase().includes(q)||t.conf.toLowerCase().includes(q)));
 }
-
-function renderTeamList(teams) {
-  const el = document.getElementById('team-list');
-  el.innerHTML = teams.map(t => {
-    const isDrafted = draftedTeams.includes(t.name.toLowerCase());
-    return `<div class="team-item ${isDrafted ? 'drafted' : ''}" onclick="${isDrafted ? '' : `draftTeam('${t.name}')`}">
-      <div>
-        <div class="team-name-display">${t.name}</div>
-        <div class="team-conf">${t.conf}</div>
-      </div>
-      ${isDrafted ? '<span style="font-size:11px;color:var(--muted)">Drafted</span>' : '<button class="draft-btn">Draft</button>'}
+function renderTeamList(teams){
+  const el=document.getElementById('team-list');
+  el.innerHTML=teams.map(t=>{
+    const isDrafted=draftedTeams.includes(t.name.toLowerCase());
+    return`<div class="team-item ${isDrafted?'drafted':''}" ${isDrafted?'':''}>
+      <div><div class="team-name-display">${t.name}</div><div class="team-conf">${t.conf}</div></div>
+      ${isDrafted?'<span style="font-size:11px;color:var(--muted)">Drafted</span>':`<button class="draft-btn" onclick="draftTeam('${t.name.replace(/'/g,"\\'")}')">Draft</button>`}
     </div>`;
   }).join('');
 }
-
-async function draftTeam(teamName) {
+async function draftTeam(teamName){
   closeModal('pick-modal');
-  const { data: picks } = await sb.from('draft_picks').select('pick_number').eq('league_id', currentLeague.id).order('pick_number', {ascending: false}).limit(1);
-  const nextPick = picks?.length ? picks[0].pick_number + 1 : 1;
-  const { error } = await sb.from('draft_picks').insert({
-    league_id: currentLeague.id, user_id: currentUser.id,
-    team_name: teamName, pick_number: nextPick, points: 0
-  });
-  if (error) { toast('Error: ' + error.message); return; }
-  toast('Drafted ' + teamName + '! 🎉');
+  const{data:lastPick}=await sb.from('draft_picks').select('pick_number').eq('league_id',currentLeague.id).order('pick_number',{ascending:false}).limit(1);
+  const nextPick=lastPick?.length?lastPick[0].pick_number+1:1;
+  const{error}=await sb.from('draft_picks').insert({league_id:currentLeague.id,user_id:currentUser.id,team_name:teamName,pick_number:nextPick,points:0});
+  if(error){toast('Error: '+error.message);return;}
+  toast('Drafted '+teamName+'! 🎉');
   renderLeague();
 }
 
-// ── Stats sync ────────────────────────────────────────────────
-function showSyncModal(sport) {
-  document.getElementById('sync-cbb-fields').style.display = sport === 'cbb' ? 'block' : 'none';
-  document.getElementById('sync-cfb-fields').style.display = sport === 'cfb' ? 'block' : 'none';
-  document.getElementById('sync-modal').style.display = 'flex';
-  setError('sync-error', '');
+// ── Season ────────────────────────────────────────────────────
+async function startSeason(regularWeeks){
+  const{data:members}=await sb.from('league_members').select('user_id,draft_order').eq('league_id',currentLeague.id).order('draft_order');
+  if(!members||members.length<2||members.length%2!==0){toast('Need even number of members (min 2)');return;}
+  const memberIds=members.map(m=>m.user_id);
+  const schedule=generateSchedule(memberIds,regularWeeks);
+  // Insert all matchups
+  const toInsert=[];
+  for(const week of schedule){
+    for(const[u1,u2]of week.pairs){
+      toInsert.push({league_id:currentLeague.id,week:week.week,user1_id:u1,user2_id:u2,score1:0,score2:0,winner_id:null,is_playoff:false});
+    }
+  }
+  const{error}=await sb.from('matchups').insert(toInsert);
+  if(error){toast('Error generating schedule: '+error.message);return;}
+  await sb.from('leagues').update({season_started:true,current_week:1}).eq('id',currentLeague.id);
+  currentLeague.season_started=true;currentLeague.current_week=1;
+  toast('Season started! Week 1 matchups generated 🏈');
+  renderLeague();
 }
 
-async function submitSync() {
-  setError('sync-error', '');
-  const sport = currentLeague.sport;
-  const team = document.getElementById('sync-team').value.trim();
-  const opp = document.getElementById('sync-opp').value.trim();
-  const score1 = parseInt(document.getElementById('sync-score1').value) || 0;
-  const score2 = parseInt(document.getElementById('sync-score2').value) || 0;
-  const rank1 = parseInt(document.getElementById('sync-rank1').value) || 0;
-  const rank2 = parseInt(document.getElementById('sync-rank2').value) || 0;
-  if (!team) { setError('sync-error', 'Enter team name.'); return; }
+async function advanceWeek(regularWeeks,playoffRounds){
+  const l=currentLeague;
+  const currentWeek=l.current_week||1;
 
-  let pts = 0;
-  if (sport === 'cbb') {
-    pts = calcCBBPoints({
-      score1, score2, rank1, rank2,
-      three_pm: parseInt(document.getElementById('sync-3pm').value)||0,
-      fga: parseInt(document.getElementById('sync-fga').value)||0,
-      fgm: parseInt(document.getElementById('sync-fgm').value)||0,
-      fta: parseInt(document.getElementById('sync-fta').value)||0,
-      ftm: parseInt(document.getElementById('sync-ftm').value)||0,
-      orb: parseInt(document.getElementById('sync-orb').value)||0,
-      drb: parseInt(document.getElementById('sync-drb').value)||0,
-      ast: parseInt(document.getElementById('sync-ast').value)||0,
-      stl: parseInt(document.getElementById('sync-stl').value)||0,
-      blk: parseInt(document.getElementById('sync-blk').value)||0,
-      tov: parseInt(document.getElementById('sync-tov').value)||0,
-    });
-  } else {
-    pts = calcCFBPoints({
-      score1, score2, rank1, rank2,
-      pass_td: parseInt(document.getElementById('sync-ptd').value)||0,
-      rush_td: parseInt(document.getElementById('sync-rtd').value)||0,
-      completions: parseInt(document.getElementById('sync-cmp').value)||0,
-      pass_att: parseInt(document.getElementById('sync-patt').value)||0,
-      interceptions: parseInt(document.getElementById('sync-int').value)||0,
-      fumbles_lost: parseInt(document.getElementById('sync-fum').value)||0,
-    });
+  // Settle current week matchups based on weekly points
+  const{data:members}=await sb.from('league_members').select('*').eq('league_id',l.id);
+  const{data:matchups}=await sb.from('matchups').select('*').eq('league_id',l.id).eq('week',currentWeek);
+
+  // Get weekly points per user (sum of all game logs this week)
+  const{data:logs}=await sb.from('game_logs').select('*').eq('league_id',l.id).eq('week',currentWeek);
+  const weeklyPts={};
+  (members||[]).forEach(m=>weeklyPts[m.user_id]=0);
+
+  // For each game log, find who has that team on roster and add points
+  for(const log of(logs||[])){
+    const{data:rosterPicks}=await sb.from('draft_picks').select('user_id').eq('league_id',l.id).ilike('team_name',log.team_name);
+    (rosterPicks||[]).forEach(p=>{if(weeklyPts[p.user_id]!==undefined)weeklyPts[p.user_id]+=log.points_earned;});
   }
 
-  // Find all draft picks for this team in this league and add points
-  const { data: teamPicks } = await sb.from('draft_picks')
-    .select('*')
-    .eq('league_id', currentLeague.id)
-    .ilike('team_name', team);
-
-  if (!teamPicks?.length) { setError('sync-error', `No one has "${team}" on their roster.`); return; }
-
-  // Save game log
-  await sb.from('game_logs').insert({
-    league_id: currentLeague.id, team_name: team, opponent: opp,
-    score1, score2, rank1, rank2, points_earned: pts, sport
-  });
-
-  // Update each pick's points + member total
-  for (const pick of teamPicks) {
-    const newPickPts = parseFloat(((pick.points||0) + pts).toFixed(2));
-    await sb.from('draft_picks').update({ points: newPickPts }).eq('id', pick.id);
-    // Update member total
-    const { data: member } = await sb.from('league_members').select('total_points').eq('league_id', currentLeague.id).eq('user_id', pick.user_id).single();
-    if (member) {
-      await sb.from('league_members').update({ total_points: parseFloat(((member.total_points||0) + pts).toFixed(2)) }).eq('league_id', currentLeague.id).eq('user_id', pick.user_id);
+  // Resolve matchups
+  for(const mu of(matchups||[])){
+    const s1=parseFloat((weeklyPts[mu.user1_id]||0).toFixed(2));
+    const s2=parseFloat((weeklyPts[mu.user2_id]||0).toFixed(2));
+    const winner=s1>s2?mu.user1_id:(s2>s1?mu.user2_id:null);
+    await sb.from('matchups').update({score1:s1,score2:s2,winner_id:winner}).eq('id',mu.id);
+    // Update W/L records
+    if(winner){
+      const loser=winner===mu.user1_id?mu.user2_id:mu.user1_id;
+      const wm=members?.find(m=>m.user_id===winner);
+      const lm=members?.find(m=>m.user_id===loser);
+      await sb.from('league_members').update({wins:(wm?.wins||0)+1,total_points:parseFloat(((wm?.total_points||0)+(weeklyPts[winner]||0)).toFixed(2))}).eq('league_id',l.id).eq('user_id',winner);
+      await sb.from('league_members').update({losses:(lm?.losses||0)+1,total_points:parseFloat(((lm?.total_points||0)+(weeklyPts[loser]||0)).toFixed(2))}).eq('league_id',l.id).eq('user_id',loser);
     }
   }
 
-  closeModal('sync-modal');
-  toast(`${team}: ${pts > 0 ? '+' : ''}${pts} pts added to ${teamPicks.length} roster(s)!`);
+  const nextWeek=currentWeek+1;
+  const totalWeeks=regularWeeks+playoffRounds;
+
+  if(nextWeek>totalWeeks){
+    await sb.from('leagues').update({current_week:nextWeek,status:'complete'}).eq('id',l.id);
+    currentLeague.current_week=nextWeek;currentLeague.status='complete';
+    toast('Season complete! 🏆');
+  } else {
+    // Generate playoff matchups if entering playoffs
+    if(nextWeek>regularWeeks){
+      await generatePlayoffMatchups(nextWeek,regularWeeks);
+    } else {
+      // Generate next week regular matchups from schedule
+      const{data:allMatchups}=await sb.from('matchups').select('*').eq('league_id',l.id).eq('week',nextWeek);
+      if(!allMatchups?.length){
+        // Re-generate using round robin for next week
+        const memberIds=(members||[]).map(m=>m.user_id);
+        const schedule=generateSchedule(memberIds,regularWeeks);
+        const weekSched=schedule.find(w=>w.week===nextWeek);
+        if(weekSched){
+          const toInsert=weekSched.pairs.map(([u1,u2])=>({league_id:l.id,week:nextWeek,user1_id:u1,user2_id:u2,score1:0,score2:0,winner_id:null,is_playoff:false}));
+          await sb.from('matchups').insert(toInsert);
+        }
+      }
+    }
+    await sb.from('leagues').update({current_week:nextWeek}).eq('id',l.id);
+    currentLeague.current_week=nextWeek;
+    toast(`Week ${currentWeek} closed! Starting Week ${nextWeek} 📅`);
+  }
   renderLeague();
 }
 
-async function activateLeague() {
-  await sb.from('leagues').update({ status: 'active' }).eq('id', currentLeague.id);
-  currentLeague.status = 'active';
-  toast('Season started! 🎉');
+async function generatePlayoffMatchups(week,regularWeeks){
+  const{data:members}=await sb.from('league_members').select('*').eq('league_id',currentLeague.id);
+  if(!members)return;
+  // Seed by win percentage then total points
+  const sorted=[...members].sort((a,b)=>{
+    const awp=a.wins/(a.wins+a.losses||1),bwp=b.wins/(b.wins+b.losses||1);
+    return bwp-awp||b.total_points-a.total_points;
+  });
+  const playoffTeams=Math.floor(members.length/2);
+  const seeds=sorted.slice(0,playoffTeams);
+  // 1 vs last, 2 vs second-last, etc.
+  const toInsert=[];
+  for(let i=0;i<Math.floor(seeds.length/2);i++){
+    toInsert.push({league_id:currentLeague.id,week,user1_id:seeds[i].user_id,user2_id:seeds[seeds.length-1-i].user_id,score1:0,score2:0,winner_id:null,is_playoff:true});
+  }
+  if(toInsert.length)await sb.from('matchups').insert(toInsert);
+}
+
+// ── Stats sync ────────────────────────────────────────────────
+function showSyncModal(sport){
+  document.getElementById('sync-cbb-fields').style.display=sport==='cbb'?'block':'none';
+  document.getElementById('sync-cfb-fields').style.display=sport==='cfb'?'block':'none';
+  document.getElementById('sync-modal').style.display='flex';
+  setError('sync-error','');
+}
+async function submitSync(){
+  setError('sync-error','');
+  const sport=currentLeague.sport;
+  const team=document.getElementById('sync-team').value.trim();
+  const opp=document.getElementById('sync-opp').value.trim();
+  const score1=parseInt(document.getElementById('sync-score1').value)||0;
+  const score2=parseInt(document.getElementById('sync-score2').value)||0;
+  const rank1=parseInt(document.getElementById('sync-rank1').value)||0;
+  const rank2=parseInt(document.getElementById('sync-rank2').value)||0;
+  if(!team){setError('sync-error','Enter team name.');return;}
+  let pts=0;
+  if(sport==='cbb'){
+    pts=calcCBBPoints({score1,score2,rank1,rank2,
+      three_pm:parseInt(document.getElementById('sync-3pm').value)||0,
+      fga:parseInt(document.getElementById('sync-fga').value)||0,
+      fgm:parseInt(document.getElementById('sync-fgm').value)||0,
+      fta:parseInt(document.getElementById('sync-fta').value)||0,
+      ftm:parseInt(document.getElementById('sync-ftm').value)||0,
+      orb:parseInt(document.getElementById('sync-orb').value)||0,
+      drb:parseInt(document.getElementById('sync-drb').value)||0,
+      ast:parseInt(document.getElementById('sync-ast').value)||0,
+      stl:parseInt(document.getElementById('sync-stl').value)||0,
+      blk:parseInt(document.getElementById('sync-blk').value)||0,
+      tov:parseInt(document.getElementById('sync-tov').value)||0});
+  }else{
+    pts=calcCFBPoints({score1,score2,rank1,rank2,
+      pass_td:parseInt(document.getElementById('sync-ptd').value)||0,
+      rush_td:parseInt(document.getElementById('sync-rtd').value)||0,
+      completions:parseInt(document.getElementById('sync-cmp').value)||0,
+      pass_att:parseInt(document.getElementById('sync-patt').value)||0,
+      interceptions:parseInt(document.getElementById('sync-int').value)||0,
+      fumbles_lost:parseInt(document.getElementById('sync-fum').value)||0});
+  }
+  const{data:teamPicks}=await sb.from('draft_picks').select('*').eq('league_id',currentLeague.id).ilike('team_name',team);
+  if(!teamPicks?.length){setError('sync-error',`No one has "${team}" on their roster.`);return;}
+  await sb.from('game_logs').insert({league_id:currentLeague.id,team_name:team,opponent:opp,score1,score2,rank1,rank2,points_earned:pts,sport,week:currentLeague.current_week});
+  for(const pick of teamPicks){
+    const newPts=parseFloat(((pick.points||0)+pts).toFixed(2));
+    await sb.from('draft_picks').update({points:newPts}).eq('id',pick.id);
+  }
+  closeModal('sync-modal');
+  toast(`${team}: ${pts>=0?'+':''}${pts} pts 🎯`);
   renderLeague();
 }
 
 // ── Boot ─────────────────────────────────────────────────────
-async function boot() {
-  try {
-    const { data: { session } } = await sb.auth.getSession();
-    if (session?.user) {
-      currentUser = session.user;
-      const { data: profile } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
-      if (profile) {
-        currentProfile = profile;
-        document.getElementById('header-name').textContent = profile.username;
-        document.getElementById('auth-overlay').style.display = 'none';
-      }
-    } else {
-      document.getElementById('auth-overlay').style.display = 'flex';
-    }
-    sb.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'SIGNED_IN' && session?.user) {
-        currentUser = session.user;
-        const { data: profile } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
-        if (profile) { currentProfile = profile; document.getElementById('header-name').textContent = profile.username; document.getElementById('auth-overlay').style.display = 'none'; }
-      } else if (event === 'SIGNED_OUT') {
-        currentUser = null; currentProfile = null;
-        document.getElementById('auth-overlay').style.display = 'flex';
-        document.getElementById('header-name').textContent = 'Guest';
-      }
+async function boot(){
+  try{
+    const{data:{session}}=await sb.auth.getSession();
+    if(session?.user){
+      currentUser=session.user;
+      const{data:profile}=await sb.from('profiles').select('*').eq('id',currentUser.id).single();
+      if(profile){currentProfile=profile;document.getElementById('header-name').textContent=profile.username;document.getElementById('auth-overlay').style.display='none';}
+    }else{document.getElementById('auth-overlay').style.display='flex';}
+    sb.auth.onAuthStateChange(async(event,session)=>{
+      if(event==='SIGNED_IN'&&session?.user){
+        currentUser=session.user;
+        const{data:profile}=await sb.from('profiles').select('*').eq('id',currentUser.id).single();
+        if(profile){currentProfile=profile;document.getElementById('header-name').textContent=profile.username;document.getElementById('auth-overlay').style.display='none';}
+      }else if(event==='SIGNED_OUT'){currentUser=null;currentProfile=null;document.getElementById('auth-overlay').style.display='flex';document.getElementById('header-name').textContent='Guest';}
     });
-  } catch(e) { console.error(e); }
+  }catch(e){console.error(e);}
 }
-
 boot();
 </script>
 </body>
